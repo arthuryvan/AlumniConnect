@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AlumniConnect</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div class="logo">
+            Alumni<span>Connect</span>
+        </div>
+
+        <div class="user-area">
+            <span>Bienvenue, {{ user.nom }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Déconnexion</a>
+        </div>
+
+    </header>
+
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <a href="{{ url_for('dashboard') }}" class="active">
+                🏠 Tableau de bord
+            </a>
+
+            <a href="{{ url_for('profil') }}">
+                👤 Mon profil
+            </a>
+
+            <a href="{{ url_for('alumni') }}">
+                🎓 Alumni
+            </a>
+
+            <a href="{{ url_for('mentorat') }}">
+                🤝 Mentorat
+            </a>
+
+            <a href="{{ url_for('opportunites') }}">
+                💼 Opportunités
+            </a>
+
+            <a href="{{ url_for('evenements') }}">
+                📅 Événements
+            </a>
+
+            <a href="#">
+                🔔 Notifications
+            </a>
+
+        </aside>
+
+
+        <main class="content">
+
+            <section class="welcome">
+
+                <h1>Bienvenue sur AlumniConnect 👋</h1>
+
+                <p>
+                    Heureux de vous revoir,
+                    <strong>{{ user.nom }}</strong>.
+                </p>
+
+                <p>
+                    Développez votre réseau, trouvez un mentor
+                    et découvrez de nouvelles opportunités.
+                </p>
+
+            </section>
+
+
+            <section class="cards">
+
+                <div class="card">
+                    <div class="icon">🎓</div>
+                    <h3>Alumni</h3>
+                    <p>Découvrez les anciens étudiants.</p>
+                    <a href="{{ url_for('alumni') }}">Explorer</a>
+                </div>
+
+
+                <div class="card">
+                    <div class="icon">🤝</div>
+                    <h3>Mentorat</h3>
+                    <p>Trouvez un mentor adapté à votre parcours.</p>
+                    <a href="{{ url_for('mentorat') }}">Découvrir</a>
+                </div>
+
+
+                <div class="card">
+                    <div class="icon">💼</div>
+                    <h3>Opportunités</h3>
+                    <p>Découvrez des offres et opportunités.</p>
+                    <a href="{{ url_for('opportunites') }}">Voir les offres</a>
+                </div>
+
+
+                <div class="card">
+                    <div class="icon">📅</div>
+                    <h3>Événements</h3>
+                    <p>Participez aux événements du réseau.</p>
+                    <a href="{{ url_for('evenements') }}">Voir les événements</a>
+                </div>
+
+
+                <div class="dashboard-card">
+
+                      <h2>Bienvenue {{ user.nom }} 👋</h2>
+
+                      {% if user.role == 'alumni' %}
+
+                           <a href="{{ url_for('demandes_mentorat') }}" class="btn">
+                                      🤝 Mes demandes de mentorat
+                              </a>
+
+                      {% endif %}
+
+                </div>
+
+
+                {% if user.role == 'student' %}
+
+                    <a href="{{ url_for('mentorat') }}" class="btn">
+                           🤝 Trouver un mentor
+                    </a>
+
+                    <a href="{{ url_for('historique_mentorat') }}" class="btn">
+                        📚 Mon historique de mentorat
+                    </a>
+
+                {% endif %}
+
+                    <a href="{{ url_for('notifications') }}" class="btn">
+                         🔔 Notifications
+                    </a>
+                    <a href="{{ url_for('messagerie_liste') }}" class="btn">
+                        💬 Ma messagerie
+                    </a>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

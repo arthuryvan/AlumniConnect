@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mon profil - AlumniConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/profil.css') }}">
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div class="logo">
+            Alumni<span>Connect</span>
+        </div>
+
+        <div class="user-area">
+            <span>Bienvenue, {{ user.nom }}</span>
+
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                Déconnexion
+            </a>
+        </div>
+
+    </header>
+
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <a href="{{ url_for('dashboard') }}">
+                🏠 Tableau de bord
+            </a>
+
+            <a href="{{ url_for('profil') }}">
+                👤 Mon profil
+            </a>
+
+            <a href="{{ url_for('alumni') }}">
+                🎓 Alumni
+            </a>
+
+            <a href="{{ url_for('mentorat') }}">
+                🤝 Mentorat
+            </a>
+
+            <a href="{{ url_for('opportunites') }}">
+                💼 Opportunités
+            </a>
+
+            <a href="{{ url_for('evenements') }}">
+                📅 Événements
+            </a>
+
+        </aside>
+
+
+        <main class="content">
+
+            <div class="profile-header">
+
+                <div class="avatar">
+
+                     {% if user.photo %}
+                         <img src="{{ url_for('static', filename='uploads/' + user.photo) }}"
+                          alt="Photo de profil">
+                          {% else %}
+                          {{ user.nom[0]|upper }}
+                      {% endif %}
+
+                </div>
+
+                <div>
+                    <h1>{{ user.nom }}</h1>
+
+                    <p>
+                        {{ user.role|capitalize }}
+                    </p>
+                </div>
+
+            </div>
+
+  <form method="POST"
+      enctype="multipart/form-data"
+      class="photo-form">
+
+    <label for="photo">📷 Photo de profil</label>
+
+    <input type="file"
+           id="photo"
+           name="photo"
+           accept="image/png, image/jpeg, image/jpg">
+
+    <button type="submit">
+        Enregistrer la photo
+    </button>
+
+</form>  
+
+
+            <div class="profile-card">
+
+                <h2>Informations personnelles</h2>
+
+                <div class="info-grid">
+
+                    <div class="info">
+                        <span>Nom complet</span>
+                        <strong>{{ user.nom }}</strong>
+                    </div>
+
+                    <div class="info">
+                        <span>Email</span>
+                        <strong>{{ user.email }}</strong>
+                    </div>
+
+                    <div class="info">
+                        <span>Rôle</span>
+                        <strong>{{ user.role }}</strong>
+                    </div>
+
+                    <div class="info">
+                        <span>Filière</span>
+                        <strong>
+                            {{ user.filiere or 'Non renseignée' }}
+                        </strong>
+                    </div>
+
+                    <div class="info">
+                        <span>Promotion</span>
+                        <strong>
+                            {{ user.promotion or 'Non renseignée' }}
+                        </strong>
+                    </div>
+
+                    <div class="info">
+                        <span>Entreprise</span>
+                        <strong>
+                            {{ user.entreprise or 'Non renseignée' }}
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-card">
+
+                <h2>À propos de moi</h2>
+
+                <p class="bio">
+                    {{ user.bio or 'Aucune biographie renseignée.' }}
+                </p>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button onclick="alert('La modification du profil sera disponible prochainement.')">
+                    ✏️ Modifier mon profil
+                </button>
+
+                <a href="{{ url_for('dashboard') }}">
+                    ← Retour au Dashboard
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

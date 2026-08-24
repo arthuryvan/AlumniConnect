@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historique du mentorat - AlumniConnect</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .statut {
+            font-weight: bold;
+        }
+
+        .en_attente {
+            color: orange;
+        }
+
+        .accepte {
+            color: green;
+        }
+
+        .refuse {
+            color: red;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📚 Historique de mes mentorats</h1>
+
+    {% if historique %}
+
+        {% for demande in historique %}
+
+            <div class="card">
+
+                <h2>
+                    Mentor : {{ demande.mentor.nom }}
+                </h2>
+
+                <p>
+                    Entreprise :
+                    {{ demande.mentor.entreprise or 'Non renseignée' }}
+                </p>
+
+                <p>
+                    Filière :
+                    {{ demande.mentor.filiere or 'Non renseignée' }}
+                </p>
+
+                <p>
+                    Date :
+                    {{ demande.date_creation.strftime('%d/%m/%Y %H:%M') }}
+                </p>
+
+                <p>
+                    Statut :
+
+                    <span class="statut {{ demande.status }}">
+                        {% if demande.status == 'en_attente' %}
+                            🟠 En attente
+                        {% elif demande.status == 'accepte' %}
+                            🟢 Acceptée
+                        {% elif demande.status == 'refuse' %}
+                            🔴 Refusée
+                        {% endif %}
+                    </span>
+
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            Vous n'avez encore envoyé aucune demande de mentorat.
+        </p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('mentorat') }}" class="btn">
+        ← Retour au mentorat
+    </a>
+
+</div>
+
+</body>
+
+</html>

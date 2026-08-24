@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mentorat - AlumniConnect</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/mentorat.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="message-success">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+          </div>
+        {% endif %}
+     {% endwith %}
+
+        <h1>🤝 Trouver un mentor</h1>
+
+        <p>
+            Découvrez les alumni disponibles pour vous accompagner.
+        </p>
+
+        <div class="mentor-grid">
+
+            {% for mentor in mentors %}
+
+            <div class="mentor-card">
+
+                <h3>{{ mentor.nom }}</h3>
+
+                <p><strong>Filière :</strong>
+                    {{ mentor.filiere or 'Non renseignée' }}
+                </p>
+
+                <p><strong>Entreprise :</strong>
+                    {{ mentor.entreprise or 'Non renseignée' }}
+                </p>
+
+                <p>
+                    {{ mentor.bio or 'Aucune biographie disponible.' }}
+                </p>
+
+                
+                <div class="actions">
+
+                     {% if mentor.id != session['user_id'] and session.get('user_id') %}
+
+                        <a
+                              href="{{ url_for('demande_mentorat', mentor_id=mentor.id) }}"
+                              class="btn mentor-btn">
+                                      🤝 Demander un mentorat
+                        </a>
+
+                         <a
+                              href="{{ url_for('messagerie', user_id=mentor.id) }}"
+                                class="btn message-btn">
+                                        💬 Envoyer un message
+                         </a>
+
+                    {% endif %}
+
+                </div>
+
+
+            {% else %}
+
+            <p>Aucun mentor disponible pour le moment.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>

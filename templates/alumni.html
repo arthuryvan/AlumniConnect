@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Alumni - AlumniConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🎓 AlumniConnect
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{{ url_for('home') }}">Accueil</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('about') }}">À propos</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('alumni') }}">Alumni</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('mentorat') }}">Mentorat</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('opportunites') }}">Opportunités</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('evenements') }}">Événements</a>
+            </li>
+
+        </ul>
+
+        <div class="actions">
+
+            <a href="{{ url_for('login') }}" class="btn-login">
+                Se connecter
+            </a>
+
+            <a href="{{ url_for('register') }}" class="btn-register">
+                S'inscrire
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PAGE ALUMNI -->
+
+    <section class="alumni-section">
+
+        <div class="alumni-header">
+
+            <h1>Notre communauté Alumni</h1>
+
+            <p>
+                Découvrez les anciens diplômés de notre communauté,
+                leurs parcours et leurs expériences professionnelles.
+            </p>
+
+        </div>
+
+
+        <div class="alumni-container">
+
+            <!-- PROFIL 1 -->
+
+            <div class="alumni-card">
+
+                <div class="alumni-photo">
+                    👨‍💼
+                </div>
+
+                <h2>Jean Dupont</h2>
+
+                <p class="alumni-role">
+                    Développeur Full Stack
+                </p>
+
+                <p>
+                    Passionné par le développement web et les nouvelles
+                    technologies.
+                </p>
+
+                <a href="#" class="profile-btn">
+                    Voir le profil
+                </a>
+
+            </div>
+
+
+            <!-- PROFIL 2 -->
+
+            <div class="alumni-card">
+
+                <div class="alumni-photo">
+                    👩‍💻
+                </div>
+
+                <h2>Marie Ngo</h2>
+
+                <p class="alumni-role">
+                    Data Analyst
+                </p>
+
+                <p>
+                    Spécialiste de l'analyse des données et de
+                    l'intelligence artificielle.
+                </p>
+
+                <a href="#" class="profile-btn">
+                    Voir le profil
+                </a>
+
+            </div>
+
+
+            <!-- PROFIL 3 -->
+
+            <div class="alumni-card">
+
+                <div class="alumni-photo">
+                    👨‍💻
+                </div>
+
+                <h2>David Mbarga</h2>
+
+                <p class="alumni-role">
+                    Entrepreneur
+                </p>
+
+                <p>
+                    Entrepreneur et passionné par la création de
+                    solutions numériques.
+                </p>
+
+                <a href="#" class="profile-btn">
+                    Voir le profil
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</body>
+</html>

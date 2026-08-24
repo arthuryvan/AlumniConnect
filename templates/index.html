@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlumniConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🎓 AlumniConnect
+        </div>
+
+        <ul class="menu">
+            <li><a href="{{url_for('about')}}">À propos</a></li>
+            <li><a href="{{url_for('alumni')}}">alumni</a></li>
+            <li><a href="">mentorat</a></li>
+            <li><a href="">opportunités</a></li>
+            <li><a href="">evenements</a></li>
+        </ul>
+
+        <div class="actions">
+
+            <a href="{{url_for('login')}}" class="btn-login">
+                Se connecter
+            </a>
+
+            <a href="{{url_for('register')}}" class="btn-register">
+                S'inscrire
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-left">
+
+            <h1>
+                Connecter.<br>
+                Collaborer.<br>
+                <span>Construire l'avenir.</span>
+            </h1>
+
+            <p>
+                AlumniConnect rapproche les étudiants et les anciens diplômés
+                pour favoriser le mentorat, le réseautage et les opportunités
+                professionnelles.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="student-btn">
+                    🎓 Je suis étudiant
+                </a>
+
+                <a href="#" class="alumni-btn">
+                    👥 Je suis Alumni
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-right">
+
+            <img
+                src="{{ url_for('static', filename='images/hero.png') }}"
+                alt="AlumniConnect">
+
+        </div>
+
+    </section>
+
+</body>
+</html>

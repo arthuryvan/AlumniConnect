@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Demandes de mentorat - AlumniConnect</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            margin-right: 10px;
+            text-decoration: none;
+            border-radius: 6px;
+            color: white;
+        }
+
+        .accept {
+            background: green;
+        }
+
+        .refuse {
+            background: red;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Demandes de mentorat</h1>
+
+    {% if demandes %}
+
+        {% for demande in demandes %}
+
+            <div class="card">
+
+                <h2>
+                    {{ demande.student.nom }}
+                </h2>
+
+                <p>
+                    Email :
+                    {{ demande.student.email }}
+                </p>
+
+                <p>
+                    Filière :
+                    {{ demande.student.filiere or 'Non renseignée' }}
+                </p>
+
+                <p>
+                    Statut :
+                    <span class="status">
+                        {{ demande.status }}
+                    </span>
+                </p>
+
+                {% if demande.status == 'en_attente' %}
+
+                    <a
+                        href="{{ url_for('accepter_mentorat',
+                                         demande_id=demande.id) }}"
+                        class="btn accept">
+                        Accepter
+                    </a>
+
+                    <a
+                        href="{{ url_for('refuser_mentorat',
+                                         demande_id=demande.id) }}"
+                        class="btn refuse">
+                        Refuser
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Aucune demande de mentorat pour le moment.</p>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        Discussion avec {{ utilisateur.nom }} - AlumniConnect
+    </title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: #007bff;
+            color: white;
+        }
+
+        .messages {
+            height: 500px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .message-moi {
+            margin-left: auto;
+            background: #007bff;
+            color: white;
+        }
+
+        .message-autre {
+            background: #e9ecef;
+            color: black;
+        }
+
+        .date {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .chat-form {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-form input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .chat-form button {
+            margin-left: 10px;
+            padding: 12px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <div class="chat-header">
+
+        <h2>
+            💬 Discussion avec {{ utilisateur.nom }}
+        </h2>
+
+    </div>
+
+
+    <div class="messages" id="messages">
+
+        {% for message in messages %}
+
+            <div class="message
+                {% if message.sender_id == session['user_id'] %}
+                    message-moi
+                {% else %}
+                    message-autre
+                {% endif %}
+            ">
+
+                {{ message.contenu }}
+
+                <div class="date">
+
+                    {{ message.date_envoi.strftime('%H:%M') }}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <form id="chat-form" class="chat-form">
+
+        <input
+            type="text"
+            id="message-input"
+            placeholder="Écrire un message..."
+            autocomplete="off"
+            required
+        >
+
+        <button type="submit">
+            Envoyer
+        </button>
+
+    </form>
+
+</div>
+
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<script>
+
+    const socket = io();
+
+    const receiverId = {{ utilisateur.id }};
+
+    const currentUserId = {{ session['user_id'] }};
+
+    const messagesContainer = document.getElementById('messages');
+
+    const messageInput = document.getElementById('message-input');
+
+    const form = document.getElementById('chat-form');
+
+
+    // Rejoindre la conversation privée
+    socket.emit('join_chat', {
+        other_user_id: receiverId
+    });
+
+
+    form.addEventListener('submit', function(event) {
+
+        event.preventDefault();
+
+        const contenu = messageInput.value.trim();
+
+        if (!contenu) {
+            return;
+        }
+
+        socket.emit('send_message', {
+
+            receiver_id: receiverId,
+
+            contenu: contenu
+
+        });
+
+        messageInput.value = '';
+
+    });
+
+
+    socket.on('new_message', function(data) {
+
+        const message = document.createElement('div');
+
+        message.classList.add('message');
+
+        if (data.sender_id == {{ session['user_id'] }}) {
+
+            message.classList.add('message-moi');
+
+        } else {
+
+            message.classList.add('message-autre');
+
+        }
+
+        message.innerHTML =
+            data.contenu +
+            '<div class="date">' +
+            data.date +
+            '</div>';
+
+        messagesContainer.appendChild(message);
+
+        messagesContainer.scrollTop =
+            messagesContainer.scrollHeight;
+
+    });
+
+</script>
+
+</body>
+</html>

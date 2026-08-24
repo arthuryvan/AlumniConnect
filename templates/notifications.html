@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Notifications - AlumniConnect</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .notification {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        .non-lue {
+            border-left: 5px solid #007bff;
+        }
+
+        .date {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔔 Mes notifications</h1>
+
+    {% if notifications %}
+
+        {% for notification in notifications %}
+
+            <div class="notification
+                {% if not notification.lu %}
+                    non-lue
+                {% endif %}">
+
+                <p>
+                    {{ notification.message }}
+                </p>
+
+                <p class="date">
+                    {{ notification.date_creation.strftime('%d/%m/%Y à %H:%M') }}
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Aucune notification pour le moment.</p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('dashboard') }}" class="btn">
+        ← Retour au dashboard
+    </a>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,337 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:#f5f8ff;
+}
+
+/* NAVBAR */
+
+.navbar{
+    background:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:bold;
+    color:#1d4ed8;
+}
+
+.menu{
+    list-style:none;
+    display:flex;
+    gap:40px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:#111827;
+    font-weight:500;
+}
+
+.actions{
+    display:flex;
+    gap:15px;
+}
+
+.btn-login{
+    text-decoration:none;
+    color:#2563eb;
+    border:2px solid #2563eb;
+    padding:12px 24px;
+    border-radius:12px;
+}
+
+.btn-register{
+    text-decoration:none;
+    background:#2563eb;
+    color:white;
+    padding:12px 24px;
+    border-radius:12px;
+}
+
+/* HERO */
+
+.hero{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:60px;
+}
+
+.hero-left{
+    width:50%;
+}
+
+.hero-left h1{
+    font-size:78px;
+    line-height:1.1;
+    color:#0f172a;
+}
+
+.hero-left span{
+    color:#2563eb;
+}
+
+.hero-left p{
+    margin-top:25px;
+    font-size:24px;
+    line-height:1.7;
+    color:#374151;
+}
+
+.hero-buttons{
+    margin-top:40px;
+    display:flex;
+    gap:20px;
+}
+
+.student-btn{
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    padding:18px 28px;
+    border-radius:14px;
+    font-weight:bold;
+}
+
+.alumni-btn{
+    border:2px solid #2563eb;
+    color:#2563eb;
+    text-decoration:none;
+    padding:18px 28px;
+    border-radius:14px;
+    font-weight:bold;
+}
+
+.hero-right{
+    width:45%;
+}
+
+.hero-right img{
+    width:100%;
+    border-radius:40px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+
+
+/* ================================
+   PAGE INSCRIPTION
+================================ */
+
+.register-section {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background: #f5f7fb;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 650px;
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.register-container h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 32px;
+    color: #1e293b;
+}
+
+.register-container > p {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+
+/* FORMULAIRE */
+
+.register-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-container label {
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.register-container input,
+.register-container select,
+.register-container textarea {
+    width: 100%;
+    padding: 13px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #dbe1ea;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    box-sizing: border-box;
+    outline: none;
+    transition: 0.3s;
+    background: #f8fafc;
+}
+
+
+/* EFFET QUAND ON CLIQUE */
+
+.register-container input:focus,
+.register-container select:focus,
+.register-container textarea:focus {
+    border-color: #2563eb;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* TEXTAREA */
+
+.register-container textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+
+/* BOUTON INSCRIPTION */
+
+.register-container button {
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 5px;
+}
+
+.register-container button:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+
+    .register-container {
+        padding: 25px 20px;
+    }
+
+    .register-container h1 {
+        font-size: 26px;
+    }
+
+}
+
+
+/* ================================
+   PAGE CONNEXION
+================================ */
+
+.login-section {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background: #f5f7fb;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #1e293b;
+}
+
+.login-container > p {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container label {
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.login-container input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #dbe1ea;
+    border-radius: 10px;
+    background: #f8fafc;
+    outline: none;
+    font-size: 15px;
+}
+
+.login-container input:focus {
+    border-color: #2563eb;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+.login-container button {
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-container button:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.register-link {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.register-link a {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Étudiants</title>
+</head>
+<body>
+
+<h1>🎓 Étudiants</h1>
+
+{% for etudiant in etudiants %}
+
+<div>
+
+    <h3>{{ etudiant.nom }}</h3>
+
+    <p>{{ etudiant.filiere }}</p>
+
+    <a href="{{ url_for(
+        'recommander',
+        student_id=etudiant.id
+    ) }}">
+        ⭐ Recommander
+    </a>
+
+</div>
+
+<hr>
+
+{% endfor %}
+
+</body>
+</html>

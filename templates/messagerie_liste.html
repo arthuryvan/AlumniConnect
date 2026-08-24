@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Ma messagerie - AlumniConnect</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .conversation {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .conversation h3 {
+            margin: 0;
+        }
+
+        .conversation p {
+            color: #777;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>💬 Ma messagerie</h1>
+
+
+    {% if utilisateurs %}
+
+        {% for utilisateur in utilisateurs %}
+
+            <div class="conversation">
+
+                <div>
+
+                    <h3>
+                        {{ utilisateur.nom }}
+                    </h3>
+
+                    <p>
+                        {{ utilisateur.role }}
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for(
+                        'messagerie',
+                        user_id=utilisateur.id
+                    ) }}"
+                    class="btn">
+
+                    💬 Ouvrir
+
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+
+            <h2>Aucune conversation</h2>
+
+            <p>
+                Vous n'avez pas encore échangé de messages.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

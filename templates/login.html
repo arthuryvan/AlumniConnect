@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Connexion - AlumniConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🎓 AlumniConnect
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{{ url_for('home') }}">Accueil</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('about') }}">À propos</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('alumni') }}">Alumni</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('mentorat') }}">Mentorat</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('opportunites') }}">Opportunités</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('evenements') }}">Événements</a>
+            </li>
+
+        </ul>
+
+        <div class="actions">
+
+            <a href="{{ url_for('register') }}"
+               class="btn-register">
+                S'inscrire
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CONNEXION -->
+
+    <section class="login-section">
+
+        <div class="login-container">
+
+            <h1>Bienvenue 👋</h1>
+
+            <p>
+                Connectez-vous à votre compte AlumniConnect.
+            </p>
+
+            <form method="POST">
+
+                <label for="email">
+                    Adresse email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="exemple@email.com"
+                    required
+                >
+
+
+                <label for="password">
+                    Mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Votre mot de passe"
+                    required
+                >
+
+
+                <button type="submit">
+                    Se connecter
+                </button>
+
+            </form>
+
+            <p class="register-link">
+
+                Vous n'avez pas encore de compte ?
+
+                <a href="{{ url_for('register') }}">
+                    Créer un compte
+                </a>
+
+            </p>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>
