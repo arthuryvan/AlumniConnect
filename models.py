@@ -136,34 +136,21 @@ class Message(db.Model):
     )
 
 
+
 class Opportunity(db.Model):
     __tablename__ = 'opportunities'
 
     id = db.Column(db.Integer, primary_key=True)
 
-    titre = db.Column(
-        db.String(150),
-        nullable=False
-    )
+    titre = db.Column(db.String(150), nullable=False)
 
-    description = db.Column(
-        db.Text,
-        nullable=False
-    )
+    description = db.Column(db.Text, nullable=False)
 
-    type = db.Column(
-        db.String(20),
-        nullable=False
-    )
+    type = db.Column(db.String(20), nullable=False)
 
-    entreprise = db.Column(
-        db.String(150),
-        nullable=False
-    )
+    entreprise = db.Column(db.String(150), nullable=False)
 
-    lieu = db.Column(
-        db.String(150)
-    )
+    lieu = db.Column(db.String(150))
 
     date_publication = db.Column(
         db.DateTime,
@@ -180,6 +167,45 @@ class Opportunity(db.Model):
         'User',
         foreign_keys=[alumni_id]
     )
+
+
+class Application(db.Model):
+    __tablename__ = 'applications'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+        nullable=False
+    )
+
+    opportunity_id = db.Column(
+        db.Integer,
+        db.ForeignKey('opportunities.id'),
+        nullable=False
+    )
+
+    date_candidature = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
+
+    statut = db.Column(
+        db.String(20),
+        default='En attente'
+    )
+
+    user = db.relationship(
+        'User',
+        foreign_keys=[user_id]
+    )
+
+    opportunity = db.relationship(
+        'Opportunity',
+        foreign_keys=[opportunity_id]
+    )
+
 
 
 
@@ -213,3 +239,57 @@ class Recommendation(db.Model):
         default=datetime.utcnow
     )
 
+    alumni = db.relationship(
+        'User',
+        foreign_keys=[alumni_id]
+    )
+
+    student = db.relationship(
+        'User',
+        foreign_keys=[student_id]
+    )
+
+
+class Event(db.Model):
+    __tablename__ = 'events'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    titre = db.Column(
+        db.String(150),
+        nullable=False
+    )
+
+    description = db.Column(
+        db.Text,
+        nullable=False
+    )
+
+    lieu = db.Column(
+        db.String(150),
+        nullable=False
+    )
+
+    date_evenement = db.Column(
+        db.DateTime,
+        nullable=False
+    )
+
+    organisateur_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+        nullable=False
+    )
+
+    date_creation = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
+
+    organisateur = db.relationship(
+        'User',
+        foreign_keys=[organisateur_id]
+    ) 

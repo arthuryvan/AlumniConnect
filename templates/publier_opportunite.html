@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Publier une opportunité - AlumniConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/opportunites.css') }}">
+
+</head>
+
+<body>
+
+    <h1>💼 Publier une opportunité</h1>
+
+    <form method="POST">
+
+        <label for="titre">
+            Titre de l'opportunité
+        </label>
+
+        <input
+            type="text"
+            id="titre"
+            name="titre"
+            placeholder="Ex : Stage développeur Python"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="type">
+            Type
+        </label>
+
+        <select id="type" name="type" required>
+
+            <option value="">
+                -- Sélectionner --
+            </option>
+
+            <option value="stage">
+                Stage
+            </option>
+
+            <option value="emploi">
+                Emploi
+            </option>
+
+            <option value="alternance">
+                Alternance
+            </option>
+
+            <option value="freelance">
+                Freelance
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <label for="entreprise">
+            Entreprise
+        </label>
+
+        <input
+            type="text"
+            id="entreprise"
+            name="entreprise"
+            placeholder="Nom de l'entreprise"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="lieu">
+            Lieu
+        </label>
+
+        <input
+            type="text"
+            id="lieu"
+            name="lieu"
+            placeholder="Ex : Douala, Cameroun"
+        >
+
+        <br><br>
+
+
+        <label for="description">
+            Description
+        </label>
+
+        <br>
+
+        <textarea
+            id="description"
+            name="description"
+            rows="8"
+            placeholder="Décrivez l'opportunité..."
+            required
+        ></textarea>
+
+        <br><br>
+
+
+        <button type="submit">
+            📢 Publier l'opportunité
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="{{ url_for('opportunites') }}">
+        ← Retour aux opportunités
+    </a>
+
+</body>
+
+</html>

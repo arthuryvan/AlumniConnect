@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 30px;
+    background: #f5f7fa;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.opportunites-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.opportunite-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.opportunite-card h2 {
+    margin-top: 0;
+}
+
+.btn-publier {
+    display: inline-block;
+    padding: 12px 18px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.btn-publier:hover {
+    background: #1d4ed8;
+}
+
+.flash-message {
+    padding: 12px;
+    margin: 15px 0;
+    background: #d1fae5;
+    border-radius: 8px;
+}
+
+form {
+    max-width: 700px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+}

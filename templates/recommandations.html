@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mes recommandations - AlumniConnect</title>
+</head>
+
+<body>
+
+    <h1>⭐ Mes recommandations</h1>
+
+    {% if recommandations %}
+
+        {% for recommandation in recommandations %}
+
+            <div class="recommendation-card">
+
+                <h3>
+                    Recommandation de
+                    {{ recommandation.alumni.nom }}
+                </h3>
+
+                <p>
+                    {{ recommandation.message }}
+                </p>
+
+                <small>
+                    {{ recommandation.date_creation.strftime('%d/%m/%Y %H:%M') }}
+                </small>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Vous n'avez reçu aucune recommandation pour le moment.</p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('dashboard') }}">
+        ← Retour au tableau de bord
+    </a>
+
+</body>
+
+</html>

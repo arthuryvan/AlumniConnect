@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from models import db, User , MentorRequest , Notification , Message , Opportunity ,Recommendation
+from models import db, User , MentorRequest , Notification , Message , Opportunity ,Recommendation , Application , Event
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from werkzeug.utils import secure_filename
@@ -10,7 +10,11 @@ from flask_login import (
     login_required,
     current_user
 )
+from datetime import datetime
 from flask_socketio import SocketIO, emit, join_room
+from models import Recommendation
+from flask_login import login_required, current_user
+import secrets
 
 app = Flask(__name__)
 
@@ -177,7 +181,57 @@ def demandes_mentorat():
 # Événements
 @app.route('/evenements')
 def evenements():
-    return render_template('evenements.html')
+
+    if "user_id" not in session:
+        return redirect(url_for('login'))
+
+    events = Event.query.order_by(
+        Event.date_evenement.asc()
+    ).all()
+
+    return render_template(
+        'evenements.html',
+        evenements=evenements
+    )
+
+
+@app.route('/creer_evenement',
+methods=['GET', 'POST'])
+def creer_evenement():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+
+        titre = request.form.get('titre')
+        description = request.form.get('description')
+        date_evenement = request.form.get('date_evenement')
+        lieu = request.form.get('lieu')
+
+        if not titre or not description or not date_evenement or not lieu:
+            return "Veuillez remplir tous les champs."
+
+        try:
+            date_evenement = datetime.strptime(
+                date_evenement, '%Y-%m-%dT%H:%M'
+            )
+        
+        except ValueError:
+            return "Format de date invalide."
+        
+        nouvel_evenement = Event(
+            titre=titre,
+            description=description,
+            date_evenement=date_evenement,
+            lieu=lieu
+        )
+
+        db.session.add(nouvel_evenement)
+        db.session.commit()
+
+        return redirect(url_for('evenements'))
+        return render_template('creer_evenement.html')
 
 
 # Connexion
@@ -494,31 +548,155 @@ def opportunites():
         Opportunity.date_publication.desc()
     ).all()
 
+    user = User.query.get_or_404(session['user_id'])
+
     return render_template(
         'opportunites.html',
-        offres=offres
+        offres=offres,
+        user=user
     )
 
 
-@app.route(
-    '/recommander/<int:student_id>',
-    methods=['GET', 'POST']
-)
+
+@app.route('/postuler/<int:opportunity_id>', methods=['POST'])
+def postuler(opportunity_id):
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    # Récupérer l'offre
+    offre = Opportunity.query.get_or_404(opportunity_id)
+
+    # Récupérer l'utilisateur connecté
+    user = User.query.get_or_404(session['user_id'])
+
+    # Seuls les étudiants peuvent postuler
+    if user.role != 'student':
+        flash(
+            "Seuls les étudiants peuvent postuler aux opportunités.",
+            "warning"
+        )
+        return redirect(url_for('opportunites'))
+
+    # L'auteur de l'offre ne peut pas postuler
+    if offre.alumni_id == user.id:
+        flash(
+            "Vous ne pouvez pas postuler à votre propre opportunité.",
+            "warning"
+        )
+        return redirect(url_for('opportunites'))
+
+    # Vérifier si l'utilisateur a déjà postulé
+    candidature_existante = Application.query.filter_by(
+        user_id=user.id,
+        opportunity_id=opportunity_id
+    ).first()
+
+    if candidature_existante:
+        flash(
+            "Vous avez déjà postulé à cette offre.",
+            "warning"
+        )
+        return redirect(url_for('opportunites'))
+
+    # Créer la candidature
+    candidature = Application(
+        user_id=user.id,
+        opportunity_id=opportunity_id,
+        statut='En attente'
+    )
+
+    db.session.add(candidature)
+    db.session.commit()
+
+    flash(
+        "Votre candidature a été envoyée avec succès !",
+        "success"
+    )
+
+    return redirect(url_for('opportunites'))
+
+
+
+#publier offre
+@app.route('/publier-opportunite', methods=['GET', 'POST'])
+def publier_opportunite():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user = User.query.get_or_404(session['user_id'])
+
+    # Seuls les Alumni peuvent publier
+    if user.role != 'alumni':
+        return "Accès interdit", 403
+
+    if request.method == 'POST':
+
+        titre = request.form.get('titre', '').strip()
+        description = request.form.get('description', '').strip()
+        type_offre = request.form.get('type', '').strip()
+        entreprise = request.form.get('entreprise', '').strip()
+        lieu = request.form.get('lieu', '').strip()
+
+        # Vérification
+        if not titre or not description or not type_offre or not entreprise:
+            flash("Veuillez remplir tous les champs obligatoires.")
+            return redirect(url_for('publier_opportunite'))
+
+        offre = Opportunity(
+            titre=titre,
+            description=description,
+            type=type_offre,
+            entreprise=entreprise,
+            lieu=lieu,
+            alumni_id=user.id
+        )
+
+        db.session.add(offre)
+        db.session.commit()
+
+        flash("Opportunité publiée avec succès !")
+
+        return redirect(url_for('opportunites'))
+
+    return render_template(
+        'publier_opportunite.html'
+    )
+
+
+
+
+# Recommander un étudiant
+@app.route('/recommander/<int:student_id>', methods=['GET', 'POST'])
 def recommander(student_id):
 
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    alumni = User.query.get(session['user_id'])
+    alumni = User.query.get_or_404(session['user_id'])
 
     if alumni.role != 'alumni':
         return "Accès interdit", 403
 
     etudiant = User.query.get_or_404(student_id)
 
+    if etudiant.role != 'student':
+        flash("Vous pouvez uniquement recommander un étudiant.")
+        return redirect(url_for('etudiants'))
+
     if request.method == 'POST':
 
-        message = request.form['message']
+        message = request.form.get('message', '').strip()
+
+        if not message:
+            flash("Veuillez saisir un message.")
+            return redirect(
+                url_for(
+                    'recommander',
+                    student_id=student_id
+                )
+            )
 
         recommendation = Recommendation(
             alumni_id=alumni.id,
@@ -537,7 +715,7 @@ def recommander(student_id):
 
         db.session.commit()
 
-        flash("Recommandation envoyée.")
+        flash("Recommandation envoyée avec succès.")
 
         return redirect(url_for('etudiants'))
 
@@ -553,15 +731,48 @@ def etudiants():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
+    user = User.query.get_or_404(session['user_id'])
+
+    # Seuls les Alumni peuvent recommander
+    if user.role != 'alumni':
+        return "Accès interdit", 403
+
     liste = User.query.filter_by(
         role='student'
     ).all()
 
     return render_template(
         'etudiants.html',
-        etudiants=liste
+        etudiants=liste,
+        user=user
     )
 
+
+@app.route('/recommandations')
+def recommandations():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user = User.query.get_or_404(
+        session['user_id']
+    )
+
+    # Seuls les étudiants consultent
+    # les recommandations qui leur sont destinées
+    if user.role != 'student':
+        return "Accès interdit", 403
+
+    recommandations = Recommendation.query.filter_by(
+        student_id=user.id
+    ).order_by(
+        Recommendation.date_creation.desc()
+    ).all()
+
+    return render_template(
+        'recommandations.html',
+        recommandations=recommandations
+    )
 
 
 

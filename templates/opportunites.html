@@ -1,14 +1,157 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Opportunités</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Opportunités - AlumniConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/opportunites.css') }}">
+
 </head>
+
 <body>
 
     <h1>💼 Opportunités</h1>
 
-    <p>Module opportunités en cours de développement.</p>
+    <p>
+        Découvrez les opportunités proposées par le réseau Alumni.
+    </p>
+
+
+    <!-- PUBLIER UNE OPPORTUNITÉ -->
+    {% if user.role == 'alumni' %}
+
+        <a href="{{ url_for('publier_opportunite') }}"
+           class="btn-publier">
+
+            ➕ Publier une opportunité
+
+        </a>
+
+        <br><br>
+
+    {% endif %}
+
+
+    <!-- MESSAGES -->
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="flash-message">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- LISTE DES OPPORTUNITÉS -->
+
+    <div class="opportunites-container">
+
+        {% for offre in offres %}
+
+            <div class="opportunite-card">
+
+                <h2>
+                    {{ offre.titre }}
+                </h2>
+
+
+                <p>
+                    🏢 <strong>Entreprise :</strong>
+                    {{ offre.entreprise }}
+                </p>
+
+
+                <p>
+                    📌 <strong>Type :</strong>
+                    {{ offre.type }}
+                </p>
+
+
+                <p>
+                    📍 <strong>Lieu :</strong>
+                    {{ offre.lieu or 'Non précisé' }}
+                </p>
+
+
+                <p>
+                    📝 {{ offre.description }}
+                </p>
+
+
+                <p>
+                    👤 Publié par :
+                    {{ offre.alumni.nom }}
+                </p>
+
+
+                <small>
+                    📅
+                    {{ offre.date_publication.strftime(
+                        '%d/%m/%Y à %H:%M'
+                    ) }}
+                </small>
+
+
+                <!-- POSTULER UNIQUEMENT POUR LES ÉTUDIANTS -->
+
+                {% if user.role == 'student' %}
+
+                    <br><br>
+
+                    <form
+                        action="{{ url_for(
+                            'postuler',
+                            opportunity_id=offre.id
+                        ) }}"
+                        method="POST">
+
+                        <button type="submit">
+                            📩 Postuler
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+            </div>
+
+        {% else %}
+
+            <p>
+                Aucune opportunité disponible pour le moment.
+            </p>
+
+        {% endfor %}
+
+    </div>
+
+
+    <br>
+
+
+    <!-- RETOUR AU DASHBOARD -->
+
+    <a href="{{ url_for('dashboard') }}">
+        ← Retour au tableau de bord
+    </a>
+
 
 </body>
+
 </html>

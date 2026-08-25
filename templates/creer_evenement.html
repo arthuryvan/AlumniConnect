@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Creer un evenement</h2>
+
+<form method="POST">
+
+    <input type="text"
+           name="titre"
+           placeholder="Titre"
+           required>
+
+    <textarea name="description"
+              placeholder="description"
+              required></textarea>
+
+    <input type="text"
+           name="lieu"
+           placeholder="Lieu"
+           required>
+
+    <input type="datetime-local"
+           name="date_evenement"
+           required>
+
+    <button type="submit">
+        creer
+    </button>
+
+</form>
+
+{% endblock %}
