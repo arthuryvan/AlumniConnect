@@ -1,0 +1,6 @@
+flask-SQLALchemy
+flask-wtf
+flask-login
+PyMSQL
+email-validator
+flask
